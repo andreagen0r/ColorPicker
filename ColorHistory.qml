@@ -89,7 +89,7 @@ Control {
 
             onClicked: _mouse => {
                          if (_mouse.button === Qt.LeftButton) {
-                           internal.setColor(model.color)
+                           internal.setColor(sampler.color)
                          } else if (_mouse.button === Qt.RightButton) {
                            menu.x = mapToItem(row, mouseX, mouseY).x + (root.swatchSize - mouseX) + 2
                            repeater.index = index
