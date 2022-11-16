@@ -88,7 +88,6 @@ FocusScope {
                             let stepSize = 0.1
 
                             if (event.modifiers & Qt.ShiftModifier) {
-                              print("shift")
                               stepSize = 0.01
                             }
 
@@ -124,7 +123,7 @@ FocusScope {
             x: slider.visualPosition * (parent.width - width)
             y: (parent.height - height) / 2
             implicitWidth: 2
-            implicitHeight: 20
+            height: Math.round(slider.height * 0.7)
           }
 
           // INFO: Circle Option

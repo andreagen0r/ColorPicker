@@ -34,25 +34,11 @@ ApplicationWindow {
     }
   }
 
-  Dialog {
+  ColorPickerDialog {
     id: colorDialog
-
-    property color color: "white"
-
     width: 450
     height: 700
-    topPadding: 0
-    bottomPadding: 0
-    anchors.centerIn: Overlay.overlay
-    standardButtons: Dialog.Ok
     title: qsTr("Color Picker")
-
-    onAccepted: colorTool.primaryFirstPlane ? (colorTool.primary = colorPicker.color) : (colorTool.secondary = colorPicker.color)
-
-    ColorPicker {
-      id: colorPicker
-      anchors.fill: parent
-      color: colorDialog.color
-    }
+    onAccepted: colorTool.primaryFirstPlane ? (colorTool.primary = color) : (colorTool.secondary = color)
   }
 }

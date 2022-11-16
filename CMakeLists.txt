@@ -24,6 +24,7 @@ qt_add_qml_module(${PROJECT_NAME}
         RGBSlider.qml
         HSVSlider.qml
         ColorSlider.qml
+        ColorPickerDialog.qml
     SOURCES
         colorwheel.h colorwheel.cpp
         colorsampler_p.h colorsampler_p.cpp
@@ -31,9 +32,11 @@ qt_add_qml_module(${PROJECT_NAME}
         colorpicker_p.h colorpicker_p.cpp
         colorslider_p.h colorslider_p.cpp
         colorhistorymodel.h colorhistorymodel.cpp
+        colorpickerpreview.h colorpickerpreview.cpp
         textfielddoublevalidator.h textfielddoublevalidator.cpp
     RESOURCES
         assets/swap.svg
+        assets/eyedropper.svg
         assets/alphaBackground.png
 )
 

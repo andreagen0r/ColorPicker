@@ -8,10 +8,66 @@ Item {
   id: root
 
   property alias color: internal.color
+  property alias picking: eyedrop.checked
+
+  property var pickingWindow: Window {
+    visible: false
+    color: "transparent"
+
+    function stopPicking() {
+      pickingWindow.close()
+      pickingAction.trigger()
+    }
+
+    ColorPickerPreview {
+      id: pickerPreview
+      anchors.fill: parent
+    }
+
+    Item {
+      anchors.fill: parent
+      focus: true
+      Keys.onEscapePressed: {
+        internal.revertPicking()
+        pickingWindow.stopPicking()
+      }
+    }
+
+    MouseArea {
+      id: mousePicker
+      anchors.fill: parent
+      hoverEnabled: true
+      cursorShape: Qt.CrossCursor
+
+      onPositionChanged: {
+        internal.eyedrop()
+        pickerPreview.update()
+      }
+
+      onClicked: {
+        pickingWindow.stopPicking()
+        history.addToHistory(internal.color)
+      }
+    }
+  }
 
   clip: true
   implicitWidth: col.implicitWidth
   implicitHeight: col.implicitHeight
+
+  Component.onCompleted: pickingWindow.close()
+
+  Action {
+    id: pickingAction
+    checkable: true
+    shortcut: "P"
+    onToggled: {
+      if (checked && root.visible) {
+        internal.startPicking()
+        root.pickingWindow.showFullScreen()
+      }
+    }
+  }
 
   ColorPicker_p {
     id: internal
@@ -61,6 +117,24 @@ Item {
         color: internal.color
         onColorChanged: internal.setColor(color)
         onEditFinished: history.addToHistory(internal.color)
+      }
+
+      ToolButton {
+        id: eyedrop
+        width: 48
+        height: width
+        padding: 0
+        horizontalPadding: 0
+        verticalPadding: 0
+        checkable: true
+        display: AbstractButton.IconOnly
+        icon.source: "assets/eyedropper.svg"
+        action: pickingAction
+
+        ToolTip.delay: 1500
+        ToolTip.timeout: 3000
+        ToolTip.text: "Shortcut \"P\""
+        ToolTip.visible: hovered
       }
 
       Label {
