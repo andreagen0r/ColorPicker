@@ -146,7 +146,7 @@ Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/an
 [license-shield]: https://img.shields.io/github/license/andreagen0r/ColorPicker.svg?color=97ca00&style=for-the-badge
 [license-url]: https://github.com/andreagen0r/ColorPicker/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: linkedin.com/in/andreagenor
+[linkedin-url]: https://www.linkedin.com/in/andreagenor
 [product-screenshot]: https://img.youtube.com/vi/g_IjqsMMFks/0.jpg
 <!-- [Qt-Shield]: https://img.shields.io/badge/-6.4.1-%233ebc4d?style=for-the-badge&logo=Qt -->
 [Qt-Shield]: https://img.shields.io/badge/Tested%20with-6.4.1-%233ebc4d?style=for-the-badge&logo=Qt
