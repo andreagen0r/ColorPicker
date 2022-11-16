@@ -95,7 +95,7 @@ ninja
 
 ## Roadmap
 
-- [ ] Remove QCursor dependency
+- [x] Remove QCursor dependency
 - [ ] Add Wayland support
 - [ ] Add OpenColorIO to manager color spaces
 - [ ] Add HSL Slider
