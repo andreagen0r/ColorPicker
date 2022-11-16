@@ -51,7 +51,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     Qt6::Quick
-#    Qt6::QuickControls2
 )
 
 install(TARGETS ${PROJECT_NAME}
