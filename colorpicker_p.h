@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QColor>
+#include <QPointF>
 
 class ColorPicker_p : public QObject {
 
@@ -19,7 +20,7 @@ public:
     [[nodiscard]] const QColor& color() const;
     Q_INVOKABLE void setColor( const QColor& newColor );
 
-    Q_INVOKABLE void eyedrop();
+    Q_INVOKABLE void eyedrop( QPointF mousePosition );
 
     [[nodiscard]] bool picking() const;
     void setPicking( bool newPicking );

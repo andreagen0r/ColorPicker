@@ -1,14 +1,14 @@
 #include "colorpickerpreview.h"
+
 #include <QPainter>
 #include <QPainterPath>
 #include <QGuiApplication>
-#include <QCursor>
-#include <QTimer>
 #include <QScreen>
 
 ColorPickerPreview::ColorPickerPreview()
     : m_previewSize { 151 }
-    , m_size { 5 } {
+    , m_size { 5 }
+    , m_mousePosition { 0, 0 } {
     setAcceptHoverEvents( true );
 }
 
@@ -16,21 +16,20 @@ void ColorPickerPreview::paint( QPainter* painter ) {
 
     const auto windowSize { QGuiApplication::screens()[0]->availableSize() };
 
-    const QPointF position = QCursor::pos();
-
-    const bool flipX { position.x() > ( windowSize.width() - m_previewSize ) };
-    const bool flipY { position.y() > ( windowSize.height() - m_previewSize ) };
+    const bool flipX { m_mousePosition.x() > ( windowSize.width() - m_previewSize ) };
+    const bool flipY { m_mousePosition.y() > ( windowSize.height() - m_previewSize ) };
 
     const double sizeHalf = ( m_size - 1 ) / 2.0;
     const double sizePreviewHalf = ( m_previewSize - 1 ) / 2.0;
 
-    const auto pixmap = QGuiApplication::primaryScreen()->grabWindow( 0, position.x() - sizeHalf, position.y() - sizeHalf, m_size, m_size );
+    const auto pixmap
+        = QGuiApplication::primaryScreen()->grabWindow( 0, m_mousePosition.x() - sizeHalf, m_mousePosition.y() - sizeHalf, m_size, m_size );
 
     painter->setRenderHints( QPainter::Antialiasing, true );
     painter->setPen( QPen( QBrush( Qt::black ), 4.0, Qt::SolidLine ) );
 
-    const QPointF coord( flipX ? position.x() - m_size - m_previewSize : position.x() + m_size,
-                         flipY ? position.y() - m_size - m_previewSize : position.y() + m_size );
+    const QPointF coord( flipX ? m_mousePosition.x() - m_size - m_previewSize : m_mousePosition.x() + m_size,
+                         flipY ? m_mousePosition.y() - m_size - m_previewSize : m_mousePosition.y() + m_size );
 
     QPainterPath path;
     path.addEllipse( coord.x(), coord.y(), m_previewSize, m_previewSize );
@@ -70,4 +69,17 @@ void ColorPickerPreview::setSize( qreal newSize ) {
     const auto tmp { 2 * ( ( int )( newSize / 2.0F ) ) + 1 };
     m_size = std::clamp( tmp, 3, 15 );
     Q_EMIT sizeChanged();
+}
+
+QPointF ColorPickerPreview::mousePosition() const {
+    return m_mousePosition;
+}
+
+void ColorPickerPreview::setMousePosition( QPointF newMousePosition ) {
+    if ( m_mousePosition == newMousePosition ) {
+        return;
+    }
+    m_mousePosition = newMousePosition;
+    Q_EMIT mousePositionChanged();
+    //    update();
 }

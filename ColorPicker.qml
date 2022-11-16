@@ -40,7 +40,9 @@ Item {
       cursorShape: Qt.CrossCursor
 
       onPositionChanged: {
-        internal.eyedrop()
+        const mousePosition = Qt.point(mouseX, mouseY)
+        pickerPreview.setMousePosition(mousePosition)
+        internal.eyedrop(mousePosition)
         pickerPreview.update()
       }
 

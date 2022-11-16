@@ -2,8 +2,7 @@
 
 #include <QQuickPaintedItem>
 #include <QQmlEngine>
-
-class Timer;
+#include <QPointF>
 
 class ColorPickerPreview : public QQuickPaintedItem {
 
@@ -12,22 +11,27 @@ class ColorPickerPreview : public QQuickPaintedItem {
 
     Q_PROPERTY( qreal previewSize READ previewSize WRITE setPreviewSize NOTIFY previewSizeChanged )
     Q_PROPERTY( qreal size READ size WRITE setSize NOTIFY sizeChanged )
+    Q_PROPERTY( QPointF mousePosition READ mousePosition WRITE setMousePosition NOTIFY mousePositionChanged )
 
 public:
     ColorPickerPreview();
 
     void paint( QPainter* painter ) override;
-    qreal previewSize() const;
+    [[nodiscard]] qreal previewSize() const;
     void setPreviewSize( qreal newPreviewSize );
-    qreal size() const;
+    [[nodiscard]] qreal size() const;
     void setSize( qreal newSize );
+
+    [[nodiscard]] QPointF mousePosition() const;
+    Q_INVOKABLE void setMousePosition( QPointF newMousePosition );
 
 signals:
     void previewSizeChanged();
-
     void sizeChanged();
+    void mousePositionChanged();
 
 private:
     qreal m_previewSize;
     qreal m_size;
+    QPointF m_mousePosition;
 };

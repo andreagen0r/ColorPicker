@@ -2,7 +2,8 @@
 
 #include <QGuiApplication>
 #include <QScreen>
-#include <QCursor>
+#include <QImage>
+#include <QPixmap>
 
 ColorPicker_p::ColorPicker_p( QObject* parent )
     : QObject { parent }
@@ -21,10 +22,10 @@ void ColorPicker_p::setColor( const QColor& newColor ) {
     Q_EMIT colorChanged();
 }
 
-void ColorPicker_p::eyedrop() {
+void ColorPicker_p::eyedrop( const QPointF mousePosition ) {
 
-    const QPoint p = QCursor::pos();
-    const auto pixmap = QGuiApplication::primaryScreen()->grabWindow( 0, p.x(), p.y(), 1, 1 );
+    const auto pixmap
+        = QGuiApplication::primaryScreen()->grabWindow( 0, static_cast<int>( mousePosition.x() ), static_cast<int>( mousePosition.y() ), 1, 1 );
     const QImage img = pixmap.toImage();
     m_color = QColor( img.pixel( 0, 0 ) );
     Q_EMIT colorChanged();
