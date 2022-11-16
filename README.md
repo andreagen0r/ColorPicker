@@ -128,7 +128,7 @@ Distributed under the MIT License. See [`LICENSE`][license-url] for more informa
 **André Agenor**
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
-![Twitter URL](https://img.shields.io/twitter/url?color=1da1f2&logo=twitter&style=for-the-badge&url=https%3A%2F%2Ftwitter.com%2Fandreagenor)
+[![Twitter][Twitter-shield]][Twitter-url]
 
 Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/andreagen0r/ColorPicker)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -148,11 +148,15 @@ Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/an
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/andreagenor
 [product-screenshot]: https://img.youtube.com/vi/g_IjqsMMFks/0.jpg
-<!-- [Qt-Shield]: https://img.shields.io/badge/-6.4.1-%233ebc4d?style=for-the-badge&logo=Qt -->
+
 [Qt-Shield]: https://img.shields.io/badge/Tested%20with-6.4.1-%233ebc4d?style=for-the-badge&logo=Qt
 [Qt-url]: https://www.qt.io
+
 [Kubuntu]: https://img.shields.io/badge/Tested%20with-Kubuntu%2022.04-%230075bb?style=for-the-badge&logo=Kubuntu
 [Kubuntu-url]: https://kubuntu.org/
+
+[Twitter-shield]: https://img.shields.io/twitter/url?color=1da1f2&logo=twitter&style=for-the-badge&url=https%3A%2F%2Ftwitter.com%2Fandreagenor
+[Twitter-url]: https://twitter.com/andreagenor
 
 
 
