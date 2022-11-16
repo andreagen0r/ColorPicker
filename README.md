@@ -136,15 +136,15 @@ Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/an
 
 
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/andreagen0r/ColorPicker.svg?color=44cc11&style=for-the-badge
 [contributors-url]: https://github.com/andreagen0r/ColorPicker/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/andreagen0r/ColorPicker.svg?color=0075bb&style=for-the-badge
 [forks-url]: https://github.com/andreagen0r/ColorPicker/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/andreagen0r/ColorPicker.svg?color=0075bb&style=for-the-badge
 [stars-url]: https://github.com/andreagen0r/ColorPicker/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/andreagen0r/ColorPicker.svg?color=dfb317&style=for-the-badge
 [issues-url]: https://github.com/andreagen0r/ColorPicker/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/andreagen0r/ColorPicker.svg?color=97ca00&style=for-the-badge
 [license-url]: https://github.com/andreagen0r/ColorPicker/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: linkedin.com/in/andreagenor
