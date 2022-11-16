@@ -16,7 +16,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![MIT License][license-shield]][license-url] 
 [![Issues][issues-shield]][issues-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 <!-- TABLE OF CONTENTS -->
@@ -44,7 +43,7 @@
 
 ## About The Project
 
-[![Qt Qml Color Picker][product-screenshot]](https://youtu.be/g_IjqsMMFks)
+![![Qt Qml Color Picker][product-screenshot]](docs/colorPicker.png)
 
 Simple Color Picker made with QtQuick
 
@@ -126,12 +125,12 @@ Distributed under the MIT License. See [`LICENSE`][license-url] for more informa
 
 ## Contact
 
-André Agenor - [@andreagenor](https://twitter.com/andreagenor)
+**André Agenor**
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
+![Twitter URL](https://img.shields.io/twitter/url?color=1da1f2&logo=twitter&style=for-the-badge&url=https%3A%2F%2Ftwitter.com%2Fandreagenor)
 
 Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/andreagen0r/ColorPicker)
-
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -154,3 +153,8 @@ Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/an
 [Qt-url]: https://www.qt.io
 [Kubuntu]: https://img.shields.io/badge/Tested%20with-Kubuntu%2022.04-%230075bb?style=for-the-badge&logo=Kubuntu
 [Kubuntu-url]: https://kubuntu.org/
+
+
+
+
+
