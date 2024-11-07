@@ -1,0 +1,116 @@
+# Prerequisites
+###################
+*.d
+
+# Object files
+###################
+*.o
+*.ko
+*.obj
+*.elf
+*.lo
+*.slo
+
+# Linker output
+###################
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+###################
+*.gch
+*.pch
+
+# Libraries
+###################
+*.lib
+*.a
+*.la
+*.lo
+*.lai
+*.so
+
+# Shared objects (inc. Windows DLLs)
+###################
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+###################
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+*.bin
+bitglass
+
+# Debug files
+###################
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Temporary files #
+###################
+*.tmp
+*.dot
+*.bak
+
+# pdflatex files #
+##################
+*.aux
+*.toc
+*.out
+*.pdf
+
+# Backup files #
+################
+*~
+*.bkp
+
+# Folders #
+###########
+build/
+.cache/
+.vscode/
+
+# Packages #
+############
+*.7z
+*.gz
+*.zip
+*.iso
+*.rar
+*.tar
+
+# Logs/DB #
+###########
+*.log
+#*.sql
+*.sqlite
+
+# OS files #
+############
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ethumbs.db
+Thumbs.db
+
+# No Vagrant trash #
+####################
+.vagrant/
+
+# Project user file #
+####################
+*.user
+*.ts
+
