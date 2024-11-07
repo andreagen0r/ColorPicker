@@ -1,15 +1,16 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 
-import ColorTools
+import ColorPicker
+import Origin
 
 Control {
-  id: root
+  id: control
+
+  required property ColorPicker_p internal
 
   property alias historySize: model.historySize
   property real swatchSize: 30
-  readonly property color color: internal.color
 
   function addToHistory(_color) {
     model.append(_color)
@@ -18,10 +19,6 @@ Control {
   implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset, leftPadding + rightPadding)
   implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, topPadding + bottomPadding)
 
-  ColorSampler_p {
-    id: internal
-  }
-
   ColorHistoryModel {
     id: model
   }
@@ -29,10 +26,10 @@ Control {
   background: Flickable {
     clip: true
     boundsBehavior: Flickable.OvershootBounds
-    implicitHeight: root.swatchSize
+    implicitHeight: control.swatchSize
     flickableDirection: Flickable.HorizontalFlick
-    contentHeight: root.swatchSize
-    contentWidth: Math.max(root.width, repeater.count * (root.swatchSize + row.spacing))
+    contentHeight: control.swatchSize
+    contentWidth: Math.max(control.width, repeater.count * (control.swatchSize + row.spacing))
 
     Row {
       id: row
@@ -45,25 +42,31 @@ Control {
         property int index: -1
 
         model: model
+
         delegate: Item {
+          id: swatchDelegate
+          required property color colorRole
+          required property int index
+
           anchors.verticalCenter: parent.verticalCenter
-          width: root.swatchSize
+          width: control.swatchSize
           height: width
 
           Image {
             anchors.fill: parent
-            visible: model.color.a < 1
+            visible: swatchDelegate.colorRole.a < 1
             fillMode: Image.Tile
             horizontalAlignment: Image.AlignLeft
             verticalAlignment: Image.AlignTop
-            source: "assets/alphaBackground.png"
+            source: "qrc:/qt/qml/ColorPicker/assets/alphaBackground.png"
           }
 
           Rectangle {
             id: sampler
             anchors.fill: parent
-            color: model.color
+            color: swatchDelegate.colorRole
           }
+
 
           Item {
             id: draggable
@@ -71,7 +74,7 @@ Control {
             Drag.dragType: Drag.Automatic
             Drag.supportedActions: Qt.CopyAction
             Drag.mimeData: {
-              "application/x-color": model.color
+              "application/x-color": swatchDelegate.colorRole
             }
           }
 
@@ -86,12 +89,20 @@ Control {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             propagateComposedEvents: false
+            hoverEnabled: true
 
+
+            ToolTip {
+
+            visible: mouseHist.containsMouse
+            delay: Application.styleHints.mousePressAndHoldInterval
+            text: swatchDelegate.colorRole.toString()
+            }
             onClicked: _mouse => {
                          if (_mouse.button === Qt.LeftButton) {
-                           internal.setColor(sampler.color)
+                           control.internal.color = swatchDelegate.colorRole
                          } else if (_mouse.button === Qt.RightButton) {
-                           menu.x = mapToItem(row, mouseX, mouseY).x + (root.swatchSize - mouseX) + 2
+                           menu.x = mapToItem(row, mouseX, mouseY).x + (control.swatchSize - mouseX) + 2
                            repeater.index = index
                            menu.open()
                          }
@@ -107,7 +118,7 @@ Control {
 
     MenuItem {
       text: qsTr("Delete")
-      onTriggered: model.removeAt(repeater.index, 1)
+      onTriggered: model.removeAt(repeater.index)
     }
 
     MenuSeparator {}

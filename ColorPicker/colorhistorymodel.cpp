@@ -49,8 +49,7 @@ bool ColorHistoryModel::setData( const QModelIndex& index, const QVariant& value
 
 
 QHash<int, QByteArray> ColorHistoryModel::roleNames() const {
-    QHash<int, QByteArray> roles;
-    roles[Color] = "color";
+    static const QHash<int, QByteArray> roles { { Color, "colorRole" } };
     return roles;
 }
 
@@ -62,7 +61,7 @@ Qt::ItemFlags ColorHistoryModel::flags( const QModelIndex& index ) const {
     return QAbstractListModel::flags( index ) | Qt::ItemIsEditable;
 }
 
-QColor ColorHistoryModel::at( int row ) {
+QColor ColorHistoryModel::at( int row ) const {
     if ( row < 0 || row >= m_colors.size() ) {
         return {};
     }
@@ -109,16 +108,4 @@ void ColorHistoryModel::removeAt( int row ) {
     beginRemoveRows( QModelIndex(), row, row );
     m_colors.removeAt( row );
     endRemoveRows();
-}
-
-int ColorHistoryModel::historySize() const {
-    return m_historySize;
-}
-
-void ColorHistoryModel::setHistorySize( int newHistorySize ) {
-    if ( m_historySize == newHistorySize ) {
-        return;
-    }
-    m_historySize = newHistorySize;
-    Q_EMIT historySizeChanged();
 }

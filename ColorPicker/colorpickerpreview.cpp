@@ -14,7 +14,7 @@ ColorPickerPreview::ColorPickerPreview()
 
 void ColorPickerPreview::paint( QPainter* painter ) {
 
-    const auto windowSize { QGuiApplication::screens()[0]->availableSize() };
+    const auto windowSize { QGuiApplication::screens().at( 0 )->availableSize() };
 
     const bool flipX { m_mousePosition.x() > ( windowSize.width() - m_previewSize ) };
     const bool flipY { m_mousePosition.y() > ( windowSize.height() - m_previewSize ) };
@@ -81,5 +81,4 @@ void ColorPickerPreview::setMousePosition( QPointF newMousePosition ) {
     }
     m_mousePosition = newMousePosition;
     Q_EMIT mousePositionChanged();
-    //    update();
 }

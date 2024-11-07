@@ -7,15 +7,12 @@ class ColorWheel : public QQuickPaintedItem {
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY( QColor color READ color WRITE setColor NOTIFY colorChanged FINAL )
+    Q_PROPERTY( QColor color MEMBER m_color NOTIFY colorChanged FINAL )
 
 public:
     explicit ColorWheel( QQuickItem* parent = nullptr );
 
     void paint( QPainter* painter ) override;
-
-    [[nodiscard]] const QColor& color() const;
-    void setColor( const QColor& newColor );
 
     Q_INVOKABLE void setHue( qreal value );
 

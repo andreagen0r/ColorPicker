@@ -9,7 +9,7 @@ class ColorSlider_p : public QObject {
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY( qreal value READ value WRITE setValue NOTIFY valueChanged )
+    Q_PROPERTY( qreal value READ value WRITE setValue NOTIFY valueChanged FINAL )
 
 public:
     explicit ColorSlider_p( QObject* parent = nullptr );

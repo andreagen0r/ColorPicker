@@ -101,21 +101,10 @@ void ColorWheel::paint( QPainter* painter ) {
     painter->drawEllipse( indicatorPosition, m_indicatorSize - 1.0, m_indicatorSize - 1.0 );
 }
 
-const QColor& ColorWheel::color() const {
-    return m_color;
-}
-
-void ColorWheel::setColor( const QColor& newColor ) {
-    if ( m_color == newColor ) {
-        return;
-    }
-
-    m_color = newColor;
-    Q_EMIT colorChanged();
-}
 
 void ColorWheel::setHue( qreal value ) {
-    setColor( QColor::fromHsvF( static_cast<float>( value ), m_color.saturationF(), m_color.valueF(), m_color.alphaF() ) );
+    m_color = QColor::fromHsvF( static_cast<float>( value ), m_color.saturationF(), m_color.valueF(), m_color.alphaF() );
+    Q_EMIT colorChanged();
 }
 
 // *****************************
@@ -203,16 +192,18 @@ void ColorWheel::mousePressEvent( QMouseEvent* event ) {
 
     switch ( m_hitMode ) {
         case HitPosition::WHEEL:
-            setColor( hueAt( m_mouseVec ) );
+            m_color = hueAt( m_mouseVec );
             setCursor( Qt::ClosedHandCursor );
             break;
         case HitPosition::CHOOSER:
-            setColor( saturationValuePositionLimit( m_mouseVec ) );
+            m_color = saturationValuePositionLimit( m_mouseVec );
             setCursor( Qt::BlankCursor );
             break;
         default:
             break;
     }
+
+    Q_EMIT colorChanged();
 }
 
 void ColorWheel::mouseMoveEvent( QMouseEvent* event ) {
@@ -229,16 +220,18 @@ void ColorWheel::mouseMoveEvent( QMouseEvent* event ) {
 
     switch ( m_hitMode ) {
         case HitPosition::WHEEL:
-            setColor( hueAt( m_mouseVec ) );
+            m_color = hueAt( m_mouseVec );
             break;
 
         case HitPosition::CHOOSER:
-            setColor( saturationValuePositionLimit( m_mouseVec ) );
+            m_color = saturationValuePositionLimit( m_mouseVec );
             break;
 
         default:
             break;
     }
+
+    Q_EMIT colorChanged();
 }
 
 void ColorWheel::mouseReleaseEvent( QMouseEvent* /*event*/ ) {
