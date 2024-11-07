@@ -1,24 +1,27 @@
 #include "textfielddoublevalidator.h"
 
+using namespace Qt::StringLiterals;
+
 TextFieldDoubleValidator::TextFieldDoubleValidator( QObject* parent )
     : QDoubleValidator( parent ) { }
 
-QValidator::State TextFieldDoubleValidator::validate( QString& s, int& /*pos*/ ) const {
+QValidator::State TextFieldDoubleValidator::validate( QString& strValue, int& /*pos*/ ) const {
 
-    if ( s.isEmpty() || ( s.startsWith( u"-"_qs ) && s.length() == 1 ) ) {
+    if ( strValue.isEmpty() || ( strValue.startsWith( "-"_L1 ) && strValue.length() == 1 ) ) {
         return QValidator::Intermediate;
     }
 
-    QChar point = locale().decimalPoint().back();
-    if ( s.indexOf( point ) != -1 ) {
-        const auto lengthDecimals = s.length() - s.indexOf( point ) - 1;
+    const QChar point = locale().decimalPoint().back();
+
+    if ( strValue.indexOf( point ) != -1 ) {
+        const auto lengthDecimals = strValue.length() - strValue.indexOf( point ) - 1;
         if ( lengthDecimals > decimals() ) {
             return QValidator::Invalid;
         }
     }
 
     bool ok = false;
-    const double value = s.toDouble( &ok );
+    const double value = strValue.toDouble( &ok );
 
     if ( ok && bottom() <= value && value <= top() ) {
         return QValidator::Acceptable;

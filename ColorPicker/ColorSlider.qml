@@ -21,6 +21,8 @@ Control {
   signal valueModified( newValue : real )
 
   spacing: 0
+  topPadding: 0
+  bottomPadding: 0
   leftPadding: 12
 
   onValueChanged: {
@@ -44,23 +46,18 @@ Control {
     Label {
       id: label
       Layout.minimumWidth: 18
-      // Layout.
-      // rightPadding: 6
-      // horizontalAlignment: Text.AlignRight
       verticalAlignment: Text.AlignVCenter
       text: control.label
     }
 
     TextField {
       id: textField
-      // Layout.minimumWidth: 70
-      // Layout.maximumWidth: 70
       Layout.fillWidth: true
       Layout.preferredWidth: 20
 
       focus: true
       text: control.value.toFixed(3)
-      color: acceptableInput ? OriginTheme.foreground: "#B82C2C"
+      color: acceptableInput ? control.palette.active.text : "#B82C2C"
       validator: TextFieldDoubleValidator {
         bottom: 0
         top: 1
@@ -158,7 +155,7 @@ Control {
           fillMode: Image.Tile
           horizontalAlignment: Image.AlignLeft
           verticalAlignment: Image.AlignTop
-          source: "assets/alphaBackground.png"
+          source: "qrc:/qt/qml/ColorPicker/assets/alphaBackground.png"
         }
       }
     }

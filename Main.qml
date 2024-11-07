@@ -2,12 +2,19 @@ import QtQuick
 import QtQuick.Controls
 
 import ColorPicker
+import Origin
 
 ApplicationWindow {
   width: 1920
   height: 1080
   visible: true
   title: qsTr("Color Wheel")
+
+  palette: theme.dark
+
+  Themes {
+    id: theme
+  }
 
   Rectangle {
     id: rect
@@ -36,6 +43,5 @@ ApplicationWindow {
 
     color: "red"
     onAccepted: rect.color = colorDialog.color
-    // onAccepted: colorTool.primaryFirstPlane ? (colorTool.primary = color) : (colorTool.secondary = color)
   }
 }

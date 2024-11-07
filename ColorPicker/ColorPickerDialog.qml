@@ -21,8 +21,9 @@ T.Dialog {
                            + (implicitHeaderHeight > 0 ? implicitHeaderHeight + spacing : 0)
                            + (implicitFooterHeight > 0 ? implicitFooterHeight + spacing : 0))
 
+  title: qsTr("Color Picker")
   padding: 12
-  spacing: 12
+  spacing: 6
 
   modal: true
   dim: false
@@ -41,46 +42,32 @@ T.Dialog {
 
   background: Rectangle {
     implicitWidth: 400
-    implicitHeight: 750
-    radius: OriginTheme.radiusMedium
-    color: OriginTheme.surface
+    implicitHeight: 600
+    radius: control.popupType === Popup.Item ? 5 : 0
+    color: control.palette.active.mid
 
     layer.enabled: true
     layer.effect: ElevationEffect {
-      elevation: OriginTheme.elevation
+      elevation: 6
     }
   }
 
-  header: Control {
-    implicitHeight: contentItem.implicitHeight+ topPadding + bottomPadding
+  header: T.Control {
+    implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
     implicitWidth: contentItem.implicitWidth + leftPadding + rightPadding
 
-    padding: control.padding
-    horizontalPadding: control.horizontalPadding
-    verticalPadding: control.verticalPadding
-    spacing: control.spacing
-
-    font {
-      pointSize: 18
-      capitalization: Font.AllUppercase
-      letterSpacing: 2
-    }
+    horizontalPadding: 12
+    verticalPadding: 6
+    spacing: 0
 
     background: Rectangle {
-      color: OriginTheme.surfaceHighlight
-      radius: OriginTheme.radiusMedium
-
-      Rectangle {
-        color: parent.color
-        visible: parent.radius > 0
-        width: parent.width
-        height: parent.radius
-        y: parent.height - height
-      }
+      color: control.palette.active.button
+      topLeftRadius: control.popupType === Popup.Item ? 5 : 0
+      topRightRadius: topLeftRadius
 
       Rectangle {
         height: 1
-        color: OriginTheme.accent
+        color: control.palette.active.highlight
         anchors {
           left: parent.left
           right: parent.right
@@ -91,16 +78,16 @@ T.Dialog {
 
     contentItem: IconLabel {
       id: idTitle
-      spacing: control.spacing
-      display: AbstractButton.TextBesideIcon
-      alignment: Qt.AlignLeft
-      color: OriginTheme.foreground
-      font {
-        pointSize: 26
-        letterSpacing: 4.0
-      }
       implicitHeight: 24
+
+      spacing: 12
+      alignment: Qt.AlignLeft
+      color: control.palette.active.text
       text: control.title
+      font.pointSize: 20
+      font.letterSpacing: 2.0
+      icon.width: 36
+      icon.height: 36
     }
   }
 
@@ -109,13 +96,12 @@ T.Dialog {
   }
 
   T.Overlay.modal: Rectangle {
-    color: OriginTheme.makeTransparent( OriginTheme.backgroundOverlay, 0.98)
-    Behavior on opacity { NumberAnimation { duration: OriginTheme.speedSuperFast } }
+    color: Qt.alpha( control.palette.active.shadow, 0.98)
+    Behavior on opacity { NumberAnimation { duration: 150 } }
   }
 
   T.Overlay.modeless: Rectangle {
-    color: "transparent"
-    Behavior on opacity { NumberAnimation { duration: OriginTheme.speedSuperFast } }
+    Behavior on opacity { NumberAnimation { duration: 150 } }
   }
 
 
@@ -177,22 +163,14 @@ T.Dialog {
 
         onClicked: {
           _private.pickingWindow.stopPicking()
-          // history.addToHistory(backend.color)
+          history.addToHistory(backend.color)
         }
       }
     }
   }
 
-  // topPadding: 0
-  // bottomPadding: 0
-  // modal: true
-  // dim: false
   closePolicy: Popup.CloseOnEscape
-  // anchors.centerIn: Overlay.overlay
   standardButtons: Dialog.Ok | Dialog.Cancel
-
-  // onRejected: colorPicker.picking = false
-
 
   ColumnLayout {
     anchors.fill: parent
@@ -200,6 +178,8 @@ T.Dialog {
 
     RowLayout {
       Layout.fillWidth: true
+      Layout.fillHeight: true
+
       spacing: 12
 
       ColorSampler {
@@ -218,9 +198,6 @@ T.Dialog {
           internal: backend
           anchors.fill: parent
           swatchSize: 30
-          // onColorChanged: {
-          //   backend.color = color
-          // }
         }
       }
     }
@@ -228,8 +205,7 @@ T.Dialog {
     Item {
       Layout.fillWidth: true
       Layout.fillHeight: true
-      Layout.minimumWidth: 400
-      Layout.minimumHeight: 200
+      Layout.minimumHeight: 280
 
       ColorWheel {
         id: colorWheel
@@ -251,6 +227,7 @@ T.Dialog {
         display: AbstractButton.IconOnly
         icon.source: "qrc:/qt/qml/ColorPicker/assets/eyedropper.svg"
         action: pickingAction
+        visible: control.popupType === Popup.Item
 
         ToolTip.delay: 1500
         ToolTip.timeout: 3000
@@ -284,58 +261,43 @@ T.Dialog {
       }
     }
 
-    TabBar {
-      id: bar
-      Layout.fillWidth: true
-      TabButton {
-        text: qsTr("RGB")
-      }
-      TabButton {
-        text: qsTr("HSV")
-      }
-    }
-
-    StackLayout {
+    ColumnLayout {
       Layout.fillWidth: true
       Layout.fillHeight: true
-      currentIndex: bar.currentIndex
+      spacing: 0
 
-      RGBSlider {
-        id: rgbSlider
-        internal: backend
-        onEditFinished: {
-          history.addToHistory(backend.color)
+      TabBar {
+        id: bar
+        Layout.fillWidth: true
+        TabButton {
+          text: qsTr("RGB")
+        }
+        TabButton {
+          text: qsTr("HSV")
         }
       }
 
-      HSVSlider {
-        id: hsvSlider
-        internal: backend
-        onEditFinished: {
-          history.addToHistory(backend.color)
+      StackLayout {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        currentIndex: bar.currentIndex
+
+        RGBSlider {
+          id: rgbSlider
+          internal: backend
+          onEditFinished: {
+            history.addToHistory(backend.color)
+          }
+        }
+
+        HSVSlider {
+          id: hsvSlider
+          internal: backend
+          onEditFinished: {
+            history.addToHistory(backend.color)
+          }
         }
       }
-
-
-      // ColorSlider {
-      //   Layout.fillWidth: true
-      //   label: "R"
-      //   value: 1
-      //   sliderBackgroundGradient: Gradient {
-      //     orientation: Gradient.Horizontal
-      //     GradientStop {
-      //       position: 0.0
-      //       color: "red"
-      //     }
-      //     GradientStop {
-      //       position: 1.0
-      //       color: "blue"
-      //     }
-      //   }
-      //   onValueModified: (newValue) => {
-      //                      backend.color.r = newValue
-      //                    }
-      // }
     }
   }
 }

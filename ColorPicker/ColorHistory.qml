@@ -1,9 +1,8 @@
 import QtQuick
-import Origin
 import QtQuick.Layouts
 
 import ColorPicker
-import ColorTools
+import Origin
 
 Control {
   id: control
@@ -12,7 +11,6 @@ Control {
 
   property alias historySize: model.historySize
   property real swatchSize: 30
-  // readonly property color color: internal.color
 
   function addToHistory(_color) {
     model.append(_color)
@@ -60,7 +58,7 @@ Control {
             fillMode: Image.Tile
             horizontalAlignment: Image.AlignLeft
             verticalAlignment: Image.AlignTop
-            source: "assets/alphaBackground.png"
+            source: "qrc:/qt/qml/ColorPicker/assets/alphaBackground.png"
           }
 
           Rectangle {

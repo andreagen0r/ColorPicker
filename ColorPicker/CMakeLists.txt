@@ -22,8 +22,6 @@ qt_add_qml_module(ColorPicker
     IMPORTS
         QtQuick.Controls.Basic
     QML_FILES
-        # ColorTool.qml
-        # Eyedroper.qml
         ColorPickerDialog.qml
         ColorSampler.qml
         ColorHistory.qml
@@ -32,16 +30,12 @@ qt_add_qml_module(ColorPicker
         HSVSlider.qml
     SOURCES
         colorpicker_p.h colorpicker_p.cpp
-
         colorwheel.h colorwheel.cpp
-        # colorsampler_p.h colorsampler_p.cpp
-        # colortool_p.h colortool_p.cpp
         colorslider_p.h colorslider_p.cpp
         colorhistorymodel.h colorhistorymodel.cpp
         colorpickerpreview.h colorpickerpreview.cpp
         textfielddoublevalidator.h textfielddoublevalidator.cpp
     RESOURCES
-        assets/swap.svg
         assets/eyedropper.svg
         assets/alphaBackground.png
 )

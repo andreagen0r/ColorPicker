@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Templates as T
 
 import ColorPicker
-import ColorTools
 
 T.Control {
   id: control
@@ -27,7 +26,7 @@ T.Control {
       fillMode: Image.Tile
       horizontalAlignment: Image.AlignLeft
       verticalAlignment: Image.AlignTop
-      source: "assets/alphaBackground.png"
+      source: "qrc:/qt/qml/ColorPicker/assets/alphaBackground.png"
     }
 
     Rectangle {

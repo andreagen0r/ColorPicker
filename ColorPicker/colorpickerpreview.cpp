@@ -81,5 +81,4 @@ void ColorPickerPreview::setMousePosition( QPointF newMousePosition ) {
     }
     m_mousePosition = newMousePosition;
     Q_EMIT mousePositionChanged();
-    //    update();
 }
