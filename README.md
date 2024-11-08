@@ -63,7 +63,7 @@ Simple Color Picker made with QtQuick
 [![Kubuntu]][Kubuntu-url]  
 
 ### Prerequisites  
-+ [Qt 6.2.X +](https://www/qt.io)  
++ [Qt 6.8.X +](https://www/qt.io)  
 + [CMake 3.16 +](https://cmake.org/)  
 
 #### Optional Prerequisites  
@@ -74,6 +74,8 @@ Simple Color Picker made with QtQuick
 
 ## How to Build
 ``` shell
+git clone https://github.com/andreagen0r/ColorPicker.git --recursive
+cd ColorPicker
 mkdir build
 cd build
 cmake -S .. -G Ninja -DCMAKE_PREFIX_PATH=<YOUR_PATH_HERE>/Qt/<YOUR_QT_VERSION_HERE>/gcc_64
@@ -149,7 +151,7 @@ Project Link: [https://github.com/andreagen0r/ColorPicker](https://github.com/an
 [linkedin-url]: https://www.linkedin.com/in/andreagenor
 [product-screenshot]: https://img.youtube.com/vi/g_IjqsMMFks/0.jpg
 
-[Qt-Shield]: https://img.shields.io/badge/Tested%20with-6.4.1-%233ebc4d?style=for-the-badge&logo=Qt
+[Qt-Shield]: https://img.shields.io/badge/Tested%20with-6.8.0-%233ebc4d?style=for-the-badge&logo=Qt
 [Qt-url]: https://www.qt.io
 
 [Kubuntu]: https://img.shields.io/badge/Tested%20with-Kubuntu%2022.04-%230075bb?style=for-the-badge&logo=Kubuntu
