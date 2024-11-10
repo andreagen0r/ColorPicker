@@ -1,48 +1,47 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ColorPickerSandbox
+project(ColorPickerDialog
     VERSION 0.2
+    DESCRIPTION "Color Picker"
     LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 
 find_package(Qt6 6.8 REQUIRED COMPONENTS Quick )
 
-qt6_policy(
-    SET QTP0001 NEW
-)
+qt_standard_project_setup(REQUIRES 6.8)
 
-qt_add_executable(Sandbox
-    main.cpp
-)
+qt_add_library(ColorPicker SHARED)
 
-qt_add_qml_module(Sandbox
-    URI ColorTools
+set_target_properties(ColorPicker PROPERTIES AUTOMOC ON)
+
+qt_add_qml_module(ColorPicker
+    URI ColorPicker
+    OUTPUT_DIRECTORY ColorPicker
     VERSION 1.0
+    IMPORTS
+        QtQuick.Controls.Basic
     QML_FILES
-        Main.qml
+        ColorPickerDialog.qml
+        ColorSampler.qml
+        ColorHistory.qml
+        ColorSlider.qml
+        RGBSlider.qml
+        HSVSlider.qml
+    SOURCES
+        colorpicker_p.h colorpicker_p.cpp
+        colorwheel.h colorwheel.cpp
+        colorslider_p.h colorslider_p.cpp
+        colorhistorymodel.h colorhistorymodel.cpp
+        colorpickerpreview.h colorpickerpreview.cpp
+        textfielddoublevalidator.h textfielddoublevalidator.cpp
+    RESOURCES
+        assets/eyedropper.svg
+        assets/alphaBackground.png
 )
 
-set_target_properties(Sandbox PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
-
-target_link_libraries(Sandbox
+target_link_libraries(ColorPicker
     PRIVATE
     Qt6::Quick
-    Origin
-    ColorPicker
 )
-
-install(TARGETS Sandbox
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-
-add_subdirectory(Origin)
-add_subdirectory(ColorPicker)

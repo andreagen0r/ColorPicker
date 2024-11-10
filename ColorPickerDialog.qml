@@ -141,7 +141,7 @@ T.Dialog {
       }
 
       Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel, "ESC"]
         onActivated: {
           backend.revertPicking()
           _private.pickingWindow.stopPicking()
