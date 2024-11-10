@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ColorPicker
+project(ColorPickerDialog
     VERSION 0.2
     DESCRIPTION "Color Picker"
     LANGUAGES CXX)
