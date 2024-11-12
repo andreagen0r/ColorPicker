@@ -44,7 +44,7 @@ T.Dialog {
     implicitWidth: 400
     implicitHeight: 600
     radius: control.popupType === Popup.Item ? 5 : 0
-    color: control.palette.active.mid
+    color: control.palette.active.window
 
     layer.enabled: true
     layer.effect: ElevationEffect {
