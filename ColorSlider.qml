@@ -1,8 +1,8 @@
 import QtQuick
-import Origin
+import Origin.Controls
 import QtQuick.Layouts
 
-import ColorPicker
+import Origin.ColorPicker
 
 Control {
   id: control
@@ -155,7 +155,7 @@ Control {
           fillMode: Image.Tile
           horizontalAlignment: Image.AlignLeft
           verticalAlignment: Image.AlignTop
-          source: "qrc:/qt/qml/ColorPicker/assets/alphaBackground.png"
+          source: Qt.resolvedUrl("assets/alphaBackground.png")
         }
       }
     }

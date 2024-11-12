@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 
-import ColorPicker
-import Origin
+import Origin.ColorPicker
+import Origin.Controls
 
 Item {
   id: control

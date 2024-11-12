@@ -3,8 +3,8 @@ import QtQuick.Layouts
 import QtQuick.Controls.impl
 import QtQuick.Templates as T
 
-import ColorPicker
-import Origin
+import Origin.ColorPicker
+import Origin.Controls
 
 T.Dialog {
   id: control
@@ -225,7 +225,7 @@ T.Dialog {
         horizontalPadding: 0
         verticalPadding: 0
         display: AbstractButton.IconOnly
-        icon.source: "qrc:/qt/qml/ColorPicker/assets/eyedropper.svg"
+        icon.source: Qt.resolvedUrl("assets/eyedropper.svg")
         action: pickingAction
         visible: control.popupType === Popup.Item
 
