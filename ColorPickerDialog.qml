@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.impl
 import QtQuick.Templates as T
 
-import Origin.ColorPicker
+import ColorPicker
 import Origin.Controls
 
 T.Dialog {
