@@ -2,7 +2,7 @@ import QtQuick
 import Origin.Controls
 import QtQuick.Layouts
 
-import Origin.ColorPicker
+import ColorPicker
 
 Control {
   id: control

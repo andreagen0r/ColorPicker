@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Templates as T
 
-import Origin.ColorPicker
+import ColorPicker
 
 T.Control {
   id: control
