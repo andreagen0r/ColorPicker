@@ -49,11 +49,12 @@ Simple Color Picker made with QtQuick
 
 ### Features
 + Color Wheel
-+ Color Tool
-+ Color Picker
++ Color Eyedrop Tool
 + Color History
 + RGBA Slider
 + HSVA Slider
++ Hex Color field
++ Drag and Drop
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -73,24 +74,23 @@ Simple Color Picker made with QtQuick
 
 
 ## How to Build
-``` shell
-git clone https://github.com/andreagen0r/ColorPicker.git --recursive
-cd ColorPicker
-mkdir build
-cd build
-cmake -S .. -G Ninja -DCMAKE_PREFIX_PATH=<YOUR_PATH_HERE>/Qt/<YOUR_QT_VERSION_HERE>/gcc_64
-ninja
+Include the project as a subdirectory in your CMakeLists.txt file and link it to your target. You can use the [`Sandbox`](https://github.com/andreagen0r/ColorPickerSandbox.git) project as a reference.  
+
+``` CMake
+add_subdirectory(ColorPicker)
+
+target_link_libraries(sandbox PRIVATE Qt6::Quick ColorPickerplugin)
 ```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 
 + Shortcuts  
-  + Enable Picking Tool **" p "**
-  + Change Value
-    +  The **" + "** increase 0.1 to the actual value, it can be combined with **" Shift "** for more precise changes
-    +  The **" - "** decrease 0.1 to the actual value, it can be combined with **" Shift "** for more precise changes
-  + Mouse Wheel inside sliders
+  + Enable Eyedrop Tool **" p "**
++ **Change Value**  
+  - The **"+"** key increases the current value by 0.1. For more precise adjustments, you can combine it with **Shift** to change by 0.01 or **Ctrl+Shift** to change by 0.001.  
+  - The **"-"** key decreases the current value by 0.1. Similarly, combine it with **Shift** for 0.01 precision or **Ctrl+Shift** for 0.001 precision.  
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -113,7 +113,6 @@ ninja
     - [ ] Franch
 
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -122,7 +121,6 @@ ninja
 Distributed under the MIT License. See [`LICENSE`][license-url] for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 ## Contact

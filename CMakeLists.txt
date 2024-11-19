@@ -1,8 +1,8 @@
 qt_standard_project_setup(REQUIRES 6.8)
 
-qt_add_library(ColorPickerModule STATIC)
+qt_add_library(ColorPicker STATIC)
 
-qt_add_qml_module(ColorPickerModule
+qt_add_qml_module(ColorPicker
     URI ColorPicker
     VERSION 1.0
     RESOURCE_PREFIX /colorpicker/qml
@@ -29,8 +29,8 @@ qt_add_qml_module(ColorPickerModule
         assets/alphaBackground.png
 )
 
-set_target_properties(ColorPickerModule PROPERTIES AUTOMOC ON)
-target_link_libraries(ColorPickerModule
+set_target_properties(ColorPicker PROPERTIES AUTOMOC ON)
+target_link_libraries(ColorPicker
     PRIVATE
     Qt6::Quick
     Origin
