@@ -11,7 +11,7 @@ T.Control {
   implicitHeight: Math.max( implicitBackgroundHeight + topInset + bottomInset,
                            implicitContentHeight + topPadding + bottomPadding )
 
-  required property ColorPicker_p internal
+  required property ColorPickerBackend backend
 
   signal clicked
   signal doubleClicked
@@ -22,7 +22,7 @@ T.Control {
 
     Image {
       anchors.fill: parent
-      visible: control.internal.color.a < 1
+      visible: control.backend.currentColor.a < 1
       fillMode: Image.Tile
       horizontalAlignment: Image.AlignLeft
       verticalAlignment: Image.AlignTop
@@ -31,14 +31,13 @@ T.Control {
 
     Rectangle {
       anchors.fill: parent
-      color: control.internal.color
+      color: control.backend.currentColor
       border.color: "lightgray"
     }
   }
 
-
   DropArea {
-    id: dropAreag
+    id: dropArea
     anchors.fill: parent
     keys: ["application/x-color"]
     onEntered: drag => {
@@ -49,7 +48,7 @@ T.Control {
     onDropped: drop => {
                  if (drop.hasColor) {
                    if (drop.proposedAction === Qt.CopyAction) {
-                     control.internal.color = drop.colorData
+                     control.backend.currentColor = drop.colorData
                      drop.acceptProposedAction()
                    }
                  }
@@ -62,7 +61,7 @@ T.Control {
     Drag.dragType: Drag.Automatic
     Drag.supportedActions: Qt.CopyAction
     Drag.mimeData: {
-      "application/x-color": control.internal.color
+      "application/x-color": control.backend.currentColor
     }
 
     MouseArea {
@@ -73,7 +72,6 @@ T.Control {
   }
 
   DragHandler {
-    id: dragHandler
     target: draggable
     onActiveChanged: draggable.Drag.active = active
   }

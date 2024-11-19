@@ -7,7 +7,7 @@ import Origin.Controls
 Item {
   id: control
 
-  required property ColorPicker_p internal
+  required property ColorPickerBackend backend
 
   signal editFinished
 
@@ -34,7 +34,7 @@ Item {
       Layout.preferredHeight: 32
 
       label: "R"
-      value: control.internal.color.r
+      value: control.backend.currentColor.r
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
         GradientStop {
@@ -49,7 +49,7 @@ Item {
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.r = newValue
+                         control.backend.currentColor.r = newValue
                        }
     }
 
@@ -59,7 +59,7 @@ Item {
       Layout.preferredHeight: 32
 
       label: "G"
-      value: control.internal.color.g
+      value: control.backend.currentColor.g
 
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
@@ -75,7 +75,7 @@ Item {
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.g = newValue
+                         control.backend.currentColor.g = newValue
                        }
     }
 
@@ -85,7 +85,7 @@ Item {
       Layout.preferredHeight: 32
 
       label: "B"
-      value: control.internal.color.b
+      value: control.backend.currentColor.b
 
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
@@ -101,7 +101,7 @@ Item {
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.b = newValue
+                         control.backend.currentColor.b = newValue
                        }
     }
 
@@ -111,7 +111,7 @@ Item {
       Layout.preferredHeight: 32
 
       label: "A"
-      value: control.internal.color.a
+      value: control.backend.currentColor.a
 
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
@@ -127,7 +127,7 @@ Item {
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.a = newValue
+                         control.backend.currentColor.a = newValue
                        }
     }
 

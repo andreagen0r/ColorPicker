@@ -1,7 +1,7 @@
 import QtQuick
-import Origin.Controls
 import QtQuick.Layouts
 
+import Origin.Controls
 import ColorPicker
 
 Control {
@@ -44,7 +44,6 @@ Control {
     spacing: 0
 
     Label {
-      id: label
       Layout.minimumWidth: 18
       verticalAlignment: Text.AlignVCenter
       text: control.label
@@ -64,28 +63,15 @@ Control {
         decimals: 3
       }
 
-      onEditingFinished: {
-        if (acceptableInput) {
-          _private.value = parseFloat(text)
-          control.valueModified(_private.value)
-        }
-        else {
-          if (parseFloat(text) <= 0) {
-            _private.value = parseFloat(text)
-            control.valueModified(0.0)
-          } else if (parseFloat(text) > 1) {
-            _private.value = parseFloat(text)
-            control.valueModified(1.0)
-          } else {
-            textField.undo()
-          }
-        }
-      }
+      onEditingFinished: control.editFinished()
 
       Keys.onPressed: event => {
                         let stepSize = 0.1
 
-                        if (event.modifiers & Qt.ShiftModifier) {
+                        if (event.modifiers & Qt.ControlModifier &&
+                            event.modifiers & Qt.ShiftModifier) {
+                          stepSize = 0.001
+                        } else if (event.modifiers & Qt.ShiftModifier) {
                           stepSize = 0.01
                         }
 
@@ -104,13 +90,25 @@ Control {
                             control.valueModified(_private.value)
                             break
                           }
+                          case Qt.Key_Enter: {
+                            if (acceptableInput) {
+                              const v = parseFloat(text)
+                              _private.value = Math.max(Math.min(v, 1.0), 0.0)
+                              control.valueModified(_private.value)
+                              control.editFinished()
+                            } else  {
+                              textField.undo()
+                            }
+
+                            break
+                          }
                         }
                       }
 
       ToolTip.visible: hovered
       ToolTip.delay: 1500
       ToolTip.timeout: 3000
-      ToolTip.text: qsTr("Use the Plus or Minus key to increase or decrease values.\nPress Shift Key to more precise adjustments")
+      ToolTip.text: qsTr("Use the Plus or Minus key to increase or decrease values.\nPress Shift or Ctrl+Shift Key to more precise adjustments")
     }
 
     Slider {
@@ -118,18 +116,40 @@ Control {
       Layout.fillWidth: true
       Layout.preferredWidth: 80
       activeFocusOnTab: false
+      wheelEnabled: true
       value: control.value
+
+      Timer {
+        id: tm
+        interval: 300
+        repeat: false
+        triggeredOnStart: false
+        onTriggered: control.editFinished()
+      }
 
       onMoved: {
         _private.value = slider.value
         control.valueModified(_private.value)
+
+        if (!pressed) {
+          tm.restart()
+        }
       }
 
       onPressedChanged: {
-        if (!slider.down) {
+        if (!pressed) {
           control.editFinished()
         }
       }
+
+      Keys.onPressed: event => {
+                        switch (event.key) {
+                          case Qt.Key_Enter: {
+                            control.editFinished()
+                            break
+                          }
+                        }
+                      }
 
       handle: Rectangle {
         x: slider.visualPosition * (slider.availableWidth - width)

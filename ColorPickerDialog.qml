@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.impl
@@ -9,8 +11,12 @@ import Origin.Controls
 T.Dialog {
   id: control
 
-  property alias icon: idTitle.icon
-  property alias color: backend.color
+  property alias icon: headerTitle.icon
+  property alias color: cpBackend.currentColor
+  property alias eyedropPreview: eyedroptool.showPreview
+  property alias eyedropPreviewSize: eyedroptool.previewSize
+  property alias eyedropPreviewMaxPixels: eyedroptool.previewMaxPixels
+  property alias historySize: history.historySize
 
   implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                           contentWidth + leftPadding + rightPadding,
@@ -27,6 +33,8 @@ T.Dialog {
 
   modal: true
   dim: false
+  closePolicy: Popup.CloseOnEscape
+  standardButtons: Dialog.Ok | Dialog.Cancel
 
   enter: Transition {
     // grow_fade_in
@@ -77,7 +85,7 @@ T.Dialog {
     }
 
     contentItem: IconLabel {
-      id: idTitle
+      id: headerTitle
       implicitHeight: 24
 
       spacing: 12
@@ -104,73 +112,9 @@ T.Dialog {
     Behavior on opacity { NumberAnimation { duration: 150 } }
   }
 
-
-
-  Action {
-    id: pickingAction
-    checkable: true
-    shortcut: "P"
-    onToggled: {
-      if (checked && control.visible) {
-        backend.startPicking()
-        _private.pickingWindow.showFullScreen()
-      }
-    }
+  ColorPickerBackend {
+    id: cpBackend
   }
-
-  ColorPicker_p {
-    id: backend
-  }
-
-  QtObject {
-    id: _private
-
-    property var pickingWindow: Window {
-      flags: Qt.FramelessWindowHint
-      visible: false
-      color: "transparent"
-
-      function stopPicking() {
-        _private.pickingWindow.close()
-        pickingAction.trigger()
-      }
-
-      ColorPickerPreview {
-        id: pickerPreview
-        anchors.fill: parent
-      }
-
-      Shortcut {
-        sequences: [StandardKey.Cancel, "ESC"]
-        onActivated: {
-          backend.revertPicking()
-          _private.pickingWindow.stopPicking()
-        }
-      }
-
-      MouseArea {
-        id: mousePicker
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.CrossCursor
-
-        onPositionChanged: {
-          const mousePosition = Qt.point(mouseX, mouseY)
-          pickerPreview.setMousePosition(mousePosition)
-          backend.eyedrop(mousePosition)
-          pickerPreview.update()
-        }
-
-        onClicked: {
-          _private.pickingWindow.stopPicking()
-          history.addToHistory(backend.color)
-        }
-      }
-    }
-  }
-
-  closePolicy: Popup.CloseOnEscape
-  standardButtons: Dialog.Ok | Dialog.Cancel
 
   ColumnLayout {
     anchors.fill: parent
@@ -185,7 +129,7 @@ T.Dialog {
       ColorSampler {
         id: sampler
         Layout.alignment: Qt.AlignBottom
-        internal: backend
+        backend: cpBackend
       }
 
       GroupBox {
@@ -195,7 +139,7 @@ T.Dialog {
 
         ColorHistory {
           id: history
-          internal: backend
+          backend: cpBackend
           anchors.fill: parent
           swatchSize: 30
         }
@@ -210,13 +154,13 @@ T.Dialog {
       ColorWheel {
         id: colorWheel
         anchors.fill: parent
-        color: backend.color
-        onColorChanged: backend.color = colorWheel.color
-        onEditFinished: history.addToHistory(backend.color)
+        color: cpBackend.currentColor
+        onColorChanged: cpBackend.currentColor = colorWheel.color
+        onEditFinished: history.addToHistory()
       }
 
       ToolButton {
-        id: eyedrop
+        id: eyedropBtn
         anchors.top: parent.top
         anchors.left: parent.left
         width: 48
@@ -255,9 +199,12 @@ T.Dialog {
         bottomPadding: 0
         leftPadding: 3
         rightPadding: 3
-        text: `#${backend.color.toString().toUpperCase()}`
+        text: `#${cpBackend.currentColor.toString().toUpperCase()}`
         font.pointSize: 10
-        onEditingFinished: backend.color = `#${text}`
+        onEditingFinished: {
+          cpBackend.currentColor = `#${text}`
+          history.addToHistory()
+        }
       }
     }
 
@@ -284,19 +231,72 @@ T.Dialog {
 
         RGBSlider {
           id: rgbSlider
-          internal: backend
+          backend: cpBackend
           onEditFinished: {
-            history.addToHistory(backend.color)
+            history.addToHistory()
           }
         }
 
         HSVSlider {
           id: hsvSlider
-          internal: backend
+          backend: cpBackend
           onEditFinished: {
-            history.addToHistory(backend.color)
+            history.addToHistory()
           }
         }
+      }
+    }
+  }
+
+
+  Action {
+    id: pickingAction
+    checkable: true
+    shortcut: "P"
+    onToggled: {
+      if (checked && control.visible) {
+        pickingWindow.showFullScreen()
+        eyedroptool.startPicking()
+      }
+    }
+  }
+
+  Window {
+    id: pickingWindow
+    flags: Qt.FramelessWindowHint
+    visible: false
+    color: "transparent"
+
+    function stopPicking() {
+      pickingWindow.close()
+      pickingAction.trigger()
+    }
+
+    EyedropPreview {
+      id: eyedroptool
+      anchors.fill: parent
+      mouseX: mousePicker.mouseX
+      mouseY: mousePicker.mouseY
+      onColorChanged: cpBackend.currentColor = eyedroptool.color
+    }
+
+    Shortcut {
+      sequence: StandardKey.Cancel
+      onActivated: {
+        eyedroptool.cancelPicking()
+        pickingWindow.stopPicking()
+      }
+    }
+
+    MouseArea {
+      id: mousePicker
+      anchors.fill: parent
+      hoverEnabled: true
+      cursorShape: Qt.CrossCursor
+
+      onClicked: {
+        pickingWindow.stopPicking()
+        history.addToHistory()
       }
     }
   }

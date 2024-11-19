@@ -7,7 +7,7 @@ import Origin.Controls
 Item {
   id: control
 
-  required property ColorPicker_p internal
+  required property ColorPickerBackend backend
 
   signal editFinished
 
@@ -26,7 +26,7 @@ Item {
       Layout.preferredHeight: 32
 
       label: "H"
-      value: control.internal.color.hsvHue
+      value: control.backend.currentColor.hsvHue
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
         GradientStop {
@@ -60,7 +60,7 @@ Item {
       }
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.hsvHue = newValue
+                         control.backend.currentColor.hsvHue = newValue
                        }
     }
 
@@ -70,23 +70,23 @@ Item {
       Layout.preferredHeight: 32
 
       label: "S"
-      value: control.internal.color.hsvSaturation
+      value: control.backend.currentColor.hsvSaturation
 
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
         GradientStop {
           position: 0.0
-          color: Qt.hsva(internal.color.hsvHue, 0, internal.color.hsvValue)
+          color: Qt.hsva(control.backend.currentColor.hsvHue, 0, control.backend.currentColor.hsvValue)
         }
         GradientStop {
           position: 1.0
-          color: internal.color
+          color: control.backend.currentColor
         }
       }
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.hsvSaturation = newValue
+                         control.backend.currentColor.hsvSaturation = newValue
                        }
     }
 
@@ -96,23 +96,23 @@ Item {
       Layout.preferredHeight: 32
 
       label: "V"
-      value: control.internal.color.hsvValue
+      value: control.backend.currentColor.hsvValue
 
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
         GradientStop {
           position: 0.0
-          color: Qt.hsva(internal.color.hsvHue, internal.color.hsvSaturation, 0)
+          color: Qt.hsva(control.backend.currentColor.hsvHue, control.backend.currentColor.hsvSaturation, 0)
         }
         GradientStop {
           position: 1.0
-          color: internal.color
+          color: control.backend.currentColor
         }
       }
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.hsvValue = newValue
+                         control.backend.currentColor.hsvValue = newValue
                        }
     }
 
@@ -122,23 +122,23 @@ Item {
       Layout.preferredHeight: 32
 
       label: "A"
-      value: control.internal.color.a
+      value: control.backend.currentColor.a
 
       sliderBackgroundGradient: Gradient {
         orientation: Gradient.Horizontal
         GradientStop {
           position: 0.0
-          color: Qt.hsva(internal.color.hsvHue, internal.color.hsvSaturation, internal.color.hsvValue, 0)
+          color: Qt.hsva(control.backend.currentColor.hsvHue, control.backend.currentColor.hsvSaturation, control.backend.currentColor.hsvValue, 0)
         }
         GradientStop {
           position: 1.0
-          color: control.internal.color
+          color: control.backend.currentColor
         }
       }
 
       onEditFinished: control.editFinished()
       onValueModified: (newValue) => {
-                         control.internal.color.a = newValue
+                         control.backend.currentColor.a = newValue
                        }
     }
 

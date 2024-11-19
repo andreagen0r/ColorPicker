@@ -23,11 +23,10 @@ public:
     [[nodiscard]] bool setData( const QModelIndex& index, const QVariant& value, int role ) override;
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
     [[nodiscard]] Qt::ItemFlags flags( const QModelIndex& index ) const override;
+    bool removeRows( int row, int count, const QModelIndex& parent ) override;
 
-    [[nodiscard]] Q_INVOKABLE QColor at( int row ) const;
     Q_INVOKABLE void append( const QColor& newColor );
     Q_INVOKABLE void clear();
-    Q_INVOKABLE void removeAt( int row );
 
 Q_SIGNALS:
     void historySizeChanged();

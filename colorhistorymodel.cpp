@@ -1,8 +1,11 @@
 #include "colorhistorymodel.h"
 
+using namespace Qt::Literals;
+
 ColorHistoryModel::ColorHistoryModel( QObject* parent )
     : QAbstractListModel { parent }
     , m_historySize { 10 } { }
+
 
 int ColorHistoryModel::rowCount( const QModelIndex& parent ) const {
     if ( !parent.isValid() ) {
@@ -49,7 +52,7 @@ bool ColorHistoryModel::setData( const QModelIndex& index, const QVariant& value
 
 
 QHash<int, QByteArray> ColorHistoryModel::roleNames() const {
-    static const QHash<int, QByteArray> roles { { Color, "colorRole" } };
+    static const QHash<int, QByteArray> roles { { Color, "colorRole"_ba } };
     return roles;
 }
 
@@ -61,51 +64,39 @@ Qt::ItemFlags ColorHistoryModel::flags( const QModelIndex& index ) const {
     return QAbstractListModel::flags( index ) | Qt::ItemIsEditable;
 }
 
-QColor ColorHistoryModel::at( int row ) const {
-    if ( row < 0 || row >= m_colors.size() ) {
-        return {};
+bool ColorHistoryModel::removeRows( int row, int count, const QModelIndex& parent ) {
+
+    if ( row < 0 && row >= m_colors.size() ) {
+        return false;
     }
 
-    return m_colors.at( row );
+    beginRemoveRows( parent, row, count );
+    m_colors.removeAt( row );
+    endRemoveRows();
+    return true;
 }
 
 void ColorHistoryModel::append( const QColor& newColor ) {
 
+    if ( m_colors.contains( newColor ) || !m_colors.isEmpty() && m_colors.first().rgb() == newColor.rgb() ) {
+        return;
+    }
+
     const auto index { static_cast<int>( m_colors.size() - 1 ) };
 
-    auto insert = [&] {
-        beginInsertRows( QModelIndex(), 0, 0 );
-        m_colors.insert( 0, newColor );
-        endInsertRows();
-    };
-
-    if ( index < 1 ) {
-        insert();
+    if ( m_colors.size() >= m_historySize ) {
+        beginRemoveRows( QModelIndex(), index, index );
+        m_colors.removeFirst();
+        endRemoveRows();
     }
 
-    if ( m_colors.contains( newColor ) ) {
-        return;
-    }
-
-    if ( m_colors.size() < m_historySize ) {
-        insert();
-        return;
-    }
-
-    beginRemoveRows( QModelIndex(), index, index );
-    m_colors.removeFirst();
-    endRemoveRows();
-    insert();
+    beginInsertRows( QModelIndex(), 0, 0 );
+    m_colors.prepend( newColor );
+    endInsertRows();
 }
 
 void ColorHistoryModel::clear() {
     beginResetModel();
     m_colors.clear();
     endResetModel();
-}
-
-void ColorHistoryModel::removeAt( int row ) {
-    beginRemoveRows( QModelIndex(), row, row );
-    m_colors.removeAt( row );
-    endRemoveRows();
 }

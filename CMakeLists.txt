@@ -18,11 +18,11 @@ qt_add_qml_module(ColorPickerModule
         RGBSlider.qml
         HSVSlider.qml
     SOURCES
-        colorpicker_p.h colorpicker_p.cpp
+        colorPickerBackend.h colorPickerBackend.cpp
         colorwheel.h colorwheel.cpp
-        colorslider_p.h colorslider_p.cpp
+
         colorhistorymodel.h colorhistorymodel.cpp
-        colorpickerpreview.h colorpickerpreview.cpp
+        eyedropPreview.h eyedropPreview.cpp
         textfielddoublevalidator.h textfielddoublevalidator.cpp
     RESOURCES
         assets/eyedropper.svg

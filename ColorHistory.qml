@@ -1,5 +1,6 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
-import QtQuick.Layouts
 
 import ColorPicker
 import Origin.Controls
@@ -7,21 +8,17 @@ import Origin.Controls
 Control {
   id: control
 
-  required property ColorPicker_p internal
+  required property ColorPickerBackend backend
 
   property alias historySize: model.historySize
   property real swatchSize: 30
 
-  function addToHistory(_color) {
-    model.append(_color)
+  function addToHistory() : void {
+    model.append(control.backend.currentColor)
   }
 
   implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset, leftPadding + rightPadding)
   implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, topPadding + bottomPadding)
-
-  ColorHistoryModel {
-    id: model
-  }
 
   background: Flickable {
     clip: true
@@ -41,7 +38,7 @@ Control {
 
         property int index: -1
 
-        model: model
+        model: ColorHistoryModel { id: model }
 
         delegate: Item {
           id: swatchDelegate
@@ -67,7 +64,6 @@ Control {
             color: swatchDelegate.colorRole
           }
 
-
           Item {
             id: draggable
             anchors.fill: parent
@@ -91,22 +87,22 @@ Control {
             propagateComposedEvents: false
             hoverEnabled: true
 
-
             ToolTip {
 
-            visible: mouseHist.containsMouse
-            delay: Application.styleHints.mousePressAndHoldInterval
-            text: swatchDelegate.colorRole.toString()
+              visible: mouseHist.containsMouse
+              delay: Application.styleHints.mousePressAndHoldInterval
+              text: swatchDelegate.colorRole.toString()
             }
             onClicked: _mouse => {
-                         if (_mouse.button === Qt.LeftButton) {
-                           control.internal.color = swatchDelegate.colorRole
-                         } else if (_mouse.button === Qt.RightButton) {
-                           menu.x = mapToItem(row, mouseX, mouseY).x + (control.swatchSize - mouseX) + 2
-                           repeater.index = index
-                           menu.open()
-                         }
-                       }
+              if (_mouse.button === Qt.LeftButton) {
+                control.backend.currentColor = swatchDelegate.colorRole
+              } else if (_mouse.button === Qt.RightButton) {
+                repeater.index = swatchDelegate.index
+                menu.x = mapToItem(row, mouseX, mouseY).x + (control.swatchSize - mouseX) + 2
+                menu.y = mouseY
+                menu.open()
+              }
+            }
           }
         }
       }
@@ -118,7 +114,9 @@ Control {
 
     MenuItem {
       text: qsTr("Delete")
-      onTriggered: model.removeAt(repeater.index)
+      onTriggered: {
+        model.removeRows(repeater.index, repeater.index)
+      }
     }
 
     MenuSeparator {}

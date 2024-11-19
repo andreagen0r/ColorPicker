@@ -7,7 +7,7 @@ class ColorWheel : public QQuickPaintedItem {
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY( QColor color MEMBER m_color NOTIFY colorChanged FINAL )
+    Q_PROPERTY( QColor color MEMBER m_color NOTIFY colorChanged FINAL REQUIRED )
 
 public:
     explicit ColorWheel( QQuickItem* parent = nullptr );
