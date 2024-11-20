@@ -34,6 +34,7 @@ private:
     QPolygonF m_arrow;
 
     QVector2D m_mouseVec;
+    QPointF m_mouseGlobalPos;
     qreal m_outerRadius;
     qreal m_innerRadius;
     qreal m_indicatorSize;
@@ -45,6 +46,7 @@ private:
     [[nodiscard]] UpDown getQuadrant( QPoint position ) noexcept;
 
     void updateMousePosition( QPoint position );
+    void updateMouseGlobalPosition( QPointF position );
 
 protected:
     void mousePressEvent( QMouseEvent* event ) override;

@@ -133,10 +133,11 @@ bool ColorWheel::isHitMode() noexcept {
 QColor ColorWheel::hueAt( const QVector2D in_mouseVec ) noexcept {
 
     const QVector2D vec { 1.0, 0.0 };
+
     qreal angle = qRadiansToDegrees( std::acos( QVector2D::dotProduct( vec, in_mouseVec ) / ( in_mouseVec.length() * vec.length() ) ) );
 
     m_quadHit
-        = getQuadrant( QPoint( static_cast<int>( mapFromGlobal( QCursor::pos() ).x() ), static_cast<int>( mapFromGlobal( QCursor::pos() ).y() ) ) );
+        = getQuadrant( QPoint( static_cast<int>( mapFromGlobal( m_mouseGlobalPos ).x() ), static_cast<int>( mapFromGlobal( m_mouseGlobalPos ).y() ) ) );
 
     if ( m_quadHit == UpDown::DOWN ) {
         angle = ONETURN - angle;
@@ -174,6 +175,10 @@ void ColorWheel::updateMousePosition( const QPoint position ) {
     m_mouseVec = QVector2D( static_cast<float>( position.x() - width() / 2.0F ), static_cast<float>( position.y() - height() / 2.0F ) );
 }
 
+void ColorWheel::updateMouseGlobalPosition( const QPointF position ) {
+    m_mouseGlobalPos = position;
+}
+
 // *****************************
 // PROTECTED
 // *****************************
@@ -185,6 +190,7 @@ void ColorWheel::mousePressEvent( QMouseEvent* event ) {
     }
 
     updateMousePosition( event->pos() );
+    updateMouseGlobalPosition( event->globalPosition() );
 
     if ( !isHitMode() ) {
         return;
@@ -217,6 +223,7 @@ void ColorWheel::mouseMoveEvent( QMouseEvent* event ) {
     }
 
     updateMousePosition( event->pos() );
+    updateMouseGlobalPosition( event->globalPosition() );
 
     switch ( m_hitMode ) {
         case HitPosition::WHEEL:
